@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Painel da Bibliotecária - Leitura Ideal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="java/config.js"></script> 
+    <script src="java/script.js"></script>
+    <style>
+        .form-container { max-width: 500px; margin: 50px auto; padding: 20px; background: #0e1010; color: white; border-radius: 10px; }
+        input, textarea { width: 100%; margin-bottom: 15px; padding: 10px; border-radius: 5px; border: none; }
+        button { width: 100%; padding: 10px; background-color: #12ffd8; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #1d96f3; }
+    </style>
+</head>
+<body>
+        <!-- Abas inicio -->
+    <nav>
+        <a href="projeto.html">
+         </a>
+        <ul class="ul">
+            <a href="projeto.html"> 
+                <img src="imagem/icones/1.png" alt="home" class="ic">
+            </a>
+            <a href="login.html">
+                <img src="imagem/icones/2.png" alt="login" class="ic">
+            </a>
+            <a href="Bibliotecaria.html">
+                <img src="imagem/icones/3.png" alt="biblioteca" class="ic">
+            </a>
+        </ul>
+    </nav>
+    <script src="java/script.js"></script>
+    <!-- Abas fim -->
+    <div class="form-container">
+        <h2 style="color: white; font-family: 'Varela Round', sans-serif;">Adicionar um Livro</h2>
+        <input type="text" id="titulo" placeholder="Título do Livro" required>
+        <input type="text" id="autor" placeholder="Autor" required>
+         <select id="generol" required style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; background: #222; color: white; border: 1px solid #444;">
+    <option value="" disabled selected>Selecione o Gênero</option>
+    <option value="Ficção">Ficção</option>
+    <option value="Romance">Romance</option>
+    <option value="Aventura">Aventura</option>
+    <option value="Terror">Terror</option>
+    <option value="Biografia">Biografia</option>
+    <option value="Didático">Didático</option>
+</select>
+        <input type="url" id="capa" placeholder="Link da Imagem da Capa (URL)" required>
+        <textarea id="descricao" placeholder="Breve descrição do livro" rows="4"></textarea>
+        <input type="number" id="quantidade" placeholder="Quantidade de exemplares" min="1" value="1" required>
+        
+        <button onclick="cadastrarLivro()">Adicionar ao Catálogo</button>
+        <br><br>
+        <a href="projeto.html" style="color: #aaa; text-decoration: none;">← Voltar para a Biblioteca</a>
+    </div>
+
+    <script src="java/admin.js"></script>
+</body>
+</html>

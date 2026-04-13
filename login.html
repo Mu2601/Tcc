@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Leitura Ideal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .login-card {
+            background-color: #111;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 350px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .login-card h2 {
+            color: white;
+            font-family: 'Varela Round', sans-serif;
+            margin-bottom: 30px;
+        }
+        .login-card input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #222;
+            color: white;
+            font-family: 'Varela Round', sans-serif;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background-color: #00d5ff; /* Seu verde neon */
+            border: none;
+            border-radius: 8px;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Varela Round', sans-serif;
+            transition: 0.3s;
+        }
+        .btn-login:hover {
+            background-color: #0066cc;
+            transform: scale(1.02);
+        }
+        .btn-cadastrar {
+            background: none;
+            border: none;
+            color: #aaa;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="imagem/Leitura.png" alt="Logo" style="width: 200px; margin-bottom: 20px;">
+
+    <div class="login-card">
+        <h2>Acessar Biblioteca</h2>
+        
+        <input type="text" id="usuario" placeholder="Nome de usuário">
+        <input type="password" id="senha" placeholder="Sua senha">
+        
+        <button class="btn-login" onclick="logar()"
+        <button class="btn-cadastrar" onclick="cadastrar()">Ainda não tenho conta (Criar)</button>
+    </div>
+
+    <script src="java/login.js"></script> 
+</body>
+</html>
