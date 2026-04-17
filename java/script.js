@@ -1,5 +1,5 @@
 // Substitua o 'SUA_URL_DO_GOOGLE_SCRIPT' pela sua URL real
-const urlOriginal = 'https://script.google.com/macros/s/AKfycbxrCFi-d5-3fOl5t1Fv2_gx1fsKcoiEMjukFku_d4E-gmId91Vi6eDdvE-MXTrx/exec'; 
+const urlOriginal = 'https://script.google.com/macros/s/AKfycbxZRpkeeNeZPAnAODyNwuiJ0wxOO1BE-bV9X2RWXaykDq9v7zzRPnYZRzlDftx-VhLW/exec'; 
 const proxyUrl = 'https://corsproxy.io/?url=' + encodeURIComponent(urlOriginal);
 
 const resposta = await fetch(proxyUrl); // Agora sem o no-cors
