@@ -1,3 +1,15 @@
+// ... dentro da função Livros ...
+const resposta = await fetch(planilhalivros, {
+    method: 'GET',
+    mode: 'cors' // Tente 'cors' primeiro
+});
+const texto = await resposta.text(); // MUDANÇA: pegue como texto primeiro
+const biblioteca = JSON.parse(texto); // Tente transformar em JSON depois
+
+lista.innerHTML = '';
+// ... resto do seu forEach ...
+
+
 // A "Tranca" de login
 document.addEventListener('DOMContentLoaded', () => {
     const usuarioAtivo = localStorage.getItem('sessaoAtiva');
