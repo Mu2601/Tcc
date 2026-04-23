@@ -1,4 +1,4 @@
-const urlGoogle = 'SUA_URL_DO_APPS_SCRIPT';
+const urlGoogle = 'https://script.google.com/macros/s/AKfycbxzsW1BIV_VjjOWl_6QVlSyw9MHXTp-TfELJXE2eGi3AV6mDWsKjiReRjA4fB6EH98/exec';
 
 async function cadastrarLivro() {
     const t = document.getElementById('titulo').value;
