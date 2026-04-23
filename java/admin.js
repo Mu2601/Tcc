@@ -1,36 +1,29 @@
-async function cadastrarLivro() {
-    // Captura os dados dos campos do formulário
-    const t = document.getElementById('titulo').value;
-    const a = document.getElementById('autor').value;      // Coluna C
-    const c = document.getElementById('capa').value;       // Coluna D
-    const d = document.getElementById('descricao').value;  // Coluna E
-    const g = document.getElementById('generol').value;
-    const h = document.getElementById('quantidade').value;
+const urlGoogle = 'SUA_URL_DO_APPS_SCRIPT';
 
-    if (!t || !a || !g) {
-        alert("Preencha os campos obrigatórios!");
-        return;
-    }
+async function cadastrarLivro() {
+    const t = document.getElementById('titulo').value;
+    const a = document.getElementById('autor').value;
+    const c = document.getElementById('capa').value;
+    const d = document.getElementById('descricao').value;
+
+    if (!t || !a) return alert("Título e Autor são obrigatórios!");
 
     const novoLivro = {
-        id: Date.now().toString(),
         titulo: t,
         autor: a,
         capa: c,
         descricao: d,
-        generol: g,
-        quantidade: h,
         status: 'disponível'
     };
 
     try {
-        // Envia para a URL do Google Apps Script (sem o proxy corsproxy)
-        await fetch('SUA_URL_DO_GOOGLE_SCRIPT', {
+        // No POST (cadastro), NÃO use o corsproxy.io
+        await fetch(urlGoogle, {
             method: 'POST',
             mode: 'no-cors',
             body: JSON.stringify(novoLivro)
         });
-        alert("Livro cadastrado com sucesso!");
+        alert("Livro salvo!");
         location.reload();
     } catch (erro) {
         console.error("Erro ao salvar:", erro);
