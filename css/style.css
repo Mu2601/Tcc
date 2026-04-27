@@ -1,76 +1,118 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
-.varela-round-regular {
-  font-family: "Varela Round", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-weight: lighter;
-}
-
-
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
     outline: none;
 }
-body{
+
+body {
     background-color: black;
-}
-section, 
-footer{
-    padding: 160px 0;
-
-}
-h3{
-    font-size: 50px;
+    font-family: "Varela Round", sans-serif;
+    color: white;
 }
 
+/* --- CONTAINER DOS CARDS --- */
+/* Adicione este ID no seu HTML envolvendo a lista */
+#lista-livros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* --- O CARD INDIVIDUAL --- */
+.card-livro {
+    background: #111; /* Fundo levemente cinza para destacar do preto total */
+    width: 240px;
+    display: flex;
+    flex-direction: column; /* Faz os itens ficarem um embaixo do outro */
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #333;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-livro:hover {
+    transform: translateY(-10px);
+    border-color: #00ff9d; /* Cor do seu botão */
+}
+
+/* --- AJUSTE DA IMAGEM DA CAPA --- */
+.capa-container {
+    width: 100%;
+    height: 320px;
+    background-color: #222;
+}
+
+.capa-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a capa preencha o espaço sem esticar */
+}
+
+/* --- DETALHES DO TEXTO --- */
+.card-detalhes {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-detalhes h3 {
+    font-size: 1.2rem; /* Tamanho ajustado para o card */
+    color: #00ff9d;
+    margin: 0;
+}
+
+.card-detalhes p {
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.genero-tag {
+    background: #333;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    align-self: flex-start; /* Não deixa a tag ocupar a largura toda */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- BOTÕES E STATUS --- */
+.btn-pegar { 
+    background: #00ff9d; 
+    color: black; /* Texto preto no fundo verde fica mais legível */
+    border: none; 
+    padding: 10px; 
+    cursor: pointer; 
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: auto; /* Joga o botão sempre para o fim do card */
+    transition: 0.2s;
+}
+
+.btn-pegar:hover {
+    background: #00cc7e;
+}
+
+.indisponivel { 
+    color: #ff1869;
+    font-weight: bold; 
+    font-size: 0.8em;
+    text-align: center;
+}
+
+/* --- UTILITÁRIOS JÁ EXISTENTES --- */
 .titulo {
     max-width: 100%;
     height: auto; 
     display: block; 
-    margin: 0 auto;
+    margin: 40px auto;
 }
-
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.ic {
-     max-width: 40px;
-    height: auto;
-    vertical-align: middle;
-}
-
-.item-image {
-     max-width: 100px;
-    height: auto;
-    vertical-align: middle;
-}
-
-
-.btn-pegar { 
-    background: #00ff9d; 
-    color: white; 
-    border: none; 
-    padding: 5px 10px; 
-    cursor: pointer; 
-    border-radius: 4px;
- }
-
-.indisponivel { color: #ff1869;
-    font-weight: bold; 
-    font-size: 0.9em; 
-}
-
-.card-livro { display: flex; 
-    gap: 20px; 
-    margin-bottom: 20px; 
-    padding: 15px; 
-    border-bottom: 1px 
-    solid #444; }
