@@ -1,31 +1,23 @@
-
+/* 1. CONFIGURAÇÕES GLOBAIS E FONTES */
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
-.varela-round-regular {
-  font-family: "Varela Round", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-weight: lighter;
-}
-
-
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
     outline: none;
 }
-body{
-    background-color: black;
-}
-section, 
-footer{
-    padding: 160px 0;
 
+body {
+    background-color: black;
+    font-family: "Varela Round", sans-serif;
+    color: white;
 }
-h3{
-    font-size: 50px;
+
+/* 2. ESTRUTURA DAS SEÇÕES */
+section, footer {
+    padding: 80px 0; /* Reduzi de 160px para os cards não ficarem muito longe do topo */
 }
 
 .titulo {
@@ -35,42 +27,97 @@ h3{
     margin: 0 auto;
 }
 
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
+/* 3. ÍCONES E IMAGENS GERAIS */
 .ic {
-     max-width: 40px;
+    max-width: 40px;
     height: auto;
     vertical-align: middle;
 }
 
 .item-image {
-     max-width: 100px;
+    max-width: 100px;
     height: auto;
     vertical-align: middle;
 }
 
+/* 4. O CONTAINER DA LISTA (GRID DE CARDS) */
+#lista-livros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
+/* 5. ESTILO DO CARD (Substitui o antigo .card-livro) */
+.card-livro { 
+    display: flex; 
+    flex-direction: column; /* Organiza imagem em cima e texto embaixo */
+    background: #111;
+    width: 240px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #333;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+
+.card-livro:hover {
+    transform: translateY(-10px);
+    border-color: #00ff9d;
+}
+
+/* 6. CAPA E DETALHES DENTRO DO CARD */
+.capa-container {
+    width: 100%;
+    height: 320px;
+    background-color: #222;
+}
+
+.capa-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta a imagem sem distorcer */
+}
+
+.card-detalhes {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-detalhes h3 {
+    font-size: 1.2rem; /* h3 menor para caber no card */
+    color: #00ff9d;
+}
+
+.genero-tag {
+    background: #333;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    align-self: flex-start;
+    color: #00ff9d;
+}
+
+/* 7. BOTÕES E STATUS */
 .btn-pegar { 
     background: #00ff9d; 
-    color: white; 
+    color: black; 
     border: none; 
-    padding: 5px 10px; 
+    padding: 10px; 
     cursor: pointer; 
-    border-radius: 4px;
- }
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 10px;
+}
 
-.indisponivel { color: #ff1869;
+.indisponivel { 
+    color: #ff1869;
     font-weight: bold; 
     font-size: 0.9em; 
 }
-
-.card-livro { display: flex; 
-    gap: 20px; 
-    margin-bottom: 20px; 
-    padding: 15px; 
-    border-bottom: 1px 
-    solid #444; }
