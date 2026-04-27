@@ -1,118 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    outline: none;
-}
-
-body {
-    background-color: black;
-    font-family: "Varela Round", sans-serif;
-    color: white;
-}
-
-/* --- CONTAINER DOS CARDS --- */
-/* Adicione este ID no seu HTML envolvendo a lista */
-#lista-livros {
+/* Container que organiza os cards lado a lado */
+.container-cards {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
+    gap: 20px;
     justify-content: center;
-    padding: 40px 20px;
+    padding: 20px;
 }
 
-/* --- O CARD INDIVIDUAL --- */
+/* Estilo individual do Card */
 .card-livro {
-    background: #111; /* Fundo levemente cinza para destacar do preto total */
-    width: 240px;
-    display: flex;
-    flex-direction: column; /* Faz os itens ficarem um embaixo do outro */
-    border-radius: 12px;
-    overflow: hidden;
+    background: #1e1e1e;
     border: 1px solid #333;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    width: 220px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
 .card-livro:hover {
-    transform: translateY(-10px);
-    border-color: #00ff9d; /* Cor do seu botão */
+    transform: translateY(-5px);
+    border-color: #00ffaa; /* Cor de destaque ao passar o mouse */
 }
 
-/* --- AJUSTE DA IMAGEM DA CAPA --- */
+/* Container da imagem para manter padrão de tamanho */
 .capa-container {
     width: 100%;
-    height: 320px;
-    background-color: #222;
+    height: 300px;
+    background: #000;
 }
 
 .capa-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Garante que a capa preencha o espaço sem esticar */
+    object-fit: cover; /* Ajusta a imagem sem distorcer */
 }
 
-/* --- DETALHES DO TEXTO --- */
+/* Detalhes do texto dentro do card */
 .card-detalhes {
     padding: 15px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.card-detalhes h3 {
-    font-size: 1.2rem; /* Tamanho ajustado para o card */
-    color: #00ff9d;
-    margin: 0;
-}
-
-.card-detalhes p {
-    font-size: 0.9rem;
     color: white;
 }
 
+.card-detalhes h3 {
+    font-size: 1.1rem;
+    margin: 0 0 8px 0;
+    color: #00ffaa;
+}
+
+.autor {
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
 .genero-tag {
+    display: inline-block;
     background: #333;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    align-self: flex-start; /* Não deixa a tag ocupar a largura toda */
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    margin-bottom: 10px;
 }
 
-/* --- BOTÕES E STATUS --- */
-.btn-pegar { 
-    background: #00ff9d; 
-    color: black; /* Texto preto no fundo verde fica mais legível */
-    border: none; 
-    padding: 10px; 
-    cursor: pointer; 
-    border-radius: 6px;
+.quantidade {
     font-weight: bold;
-    margin-top: auto; /* Joga o botão sempre para o fim do card */
-    transition: 0.2s;
-}
-
-.btn-pegar:hover {
-    background: #00cc7e;
-}
-
-.indisponivel { 
-    color: #ff1869;
-    font-weight: bold; 
-    font-size: 0.8em;
-    text-align: center;
-}
-
-/* --- UTILITÁRIOS JÁ EXISTENTES --- */
-.titulo {
-    max-width: 100%;
-    height: auto; 
-    display: block; 
-    margin: 40px auto;
+    font-size: 0.85rem;
 }
