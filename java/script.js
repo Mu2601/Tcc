@@ -1,4 +1,3 @@
-// URL do seu servidor oficial no PythonAnywhere
 const API_URL = "https://Muri26.pythonanywhere.com";
 
 // 1. FUNÇÃO PARA CADASTRAR UM NOVO LIVRO
