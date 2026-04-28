@@ -2,15 +2,14 @@ const API_URL = "https://Muri26.pythonanywhere.com";
 
 // --- 1. LIMPEZA E FILTRAGEM (Item 3) ---
 // Remove duplicados e livros com informações faltando antes de exibir
+// Garanta que esta função esteja assim no seu script.js
 function filtrarLivros(lista) {
     const vistos = new Set();
     return lista.filter(livro => {
-        // Se a linha estiver vazia ou sem título, ignora sem travar o site
-        if (!livro.titulo || !livro.autor) return false;
+        // Se a linha estiver vazia ou sem título, pula ela em vez de travar o site
+        if (!livro || !livro.titulo) return false; 
 
-        // Converte para texto com segurança para evitar erro de 'null'
         const tituloTexto = String(livro.titulo).toLowerCase();
-        
         const eDuplicado = vistos.has(tituloTexto);
         vistos.add(tituloTexto);
 
