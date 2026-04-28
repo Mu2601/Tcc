@@ -64,3 +64,18 @@ async function logar() {
         alert("Erro no login.");
     }
 }
+
+// Exemplo de como salvar após receber a resposta do PythonAnywhere
+.then(usuario => {
+    if (usuario.success) {
+        // Salva os dados no navegador
+        localStorage.setItem('usuarioLogado', JSON.stringify({
+            id: usuario.id,
+            nome: usuario.nome,
+            tipo: usuario.tipo // 'comum' ou 'admin'
+        }));
+        
+        alert(`Bem-vindo, ${usuario.nome}!`);
+        window.location.href = "index.html"; // Vai para a home
+    }
+})
