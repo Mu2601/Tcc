@@ -31,8 +31,8 @@ section, footer {
 }
 
 .titulo {
-    max-width: 1000px; /* Tamanho máximo para não esticar demais no PC */
-    width: 90%;      /* No celular, ela ocupa 90% da largura da tela */
+    max-width: 100%; /* Tamanho máximo para não esticar demais no PC */
+    width: 100%;      /* No celular, ela ocupa 90% da largura da tela */
     height: auto;    /* Mantém a proporção da imagem */
     display: block;
     margin: 0 auto;
