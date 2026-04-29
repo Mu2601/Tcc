@@ -135,6 +135,49 @@ function cadastrarLivro() {
         listarLivros();
     });
 }
+// 1. Crie esta variável no topo do script para guardar a lista original
+let todosOsLivros = []; 
+
+function listarLivros() {
+    fetch(`${API_URL}/listar`)
+    .then(response => response.json())
+    .then(dadosBrutos => {
+        // Guardamos a lista limpa na nossa variável global
+        todosOsLivros = filtrarLivros(dadosBrutos); 
+        
+        // Renderizamos a lista completa pela primeira vez
+        renderizarCards(todosOsLivros); 
+    })
+    .catch(error => console.error("Erro ao listar livros:", error));
+}
+
+// 2. Nova função para filtrar enquanto o usuário digita
+function pesquisarLivros() {
+    const termo = document.getElementById('input-pesquisa').value.toLowerCase();
+    
+    // Filtra a lista original baseada no título ou autor
+    const livrosFiltrados = todosOsLivros.filter(livro => {
+        return livro.titulo.toLowerCase().includes(termo) || 
+               livro.autor.toLowerCase().includes(termo);
+    });
+
+    // Desenha apenas os livros que passaram no filtro
+    renderizarCards(livrosFiltrados);
+}
+
+// 3. Criamos uma função só para desenhar os cards (para não repetir código)
+function renderizarCards(lista) {
+    const container = document.getElementById('lista-livros');
+    if (!container) return;
+    container.innerHTML = "";
+
+    const sessao = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+    lista.forEach(livro => {
+        // ... (Aqui você mantém toda aquela lógica de botões Pegar/Devolver que já fizemos) ...
+        // (Use o código do card que te mandei na última mensagem completa)
+    });
+}
 
 function atualizarDashboard() {
     const sessao = localStorage.getItem('usuarioLogado');
