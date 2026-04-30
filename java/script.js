@@ -1,7 +1,7 @@
 const API_URL = "https://Muri26.pythonanywhere.com";
-let todosOsLivros = [];
+let todosOsLivros = []; // Variável global para guardar os livros da nuvem
 
-// --- LIMPEZA DE DUPLICADOS ---
+// --- 1. LIMPEZA DE DADOS (Evita bugs de duplicados ou valores vazios) ---
 function filtrarLivros(lista) {
     const vistos = new Set();
     return lista.filter(livro => {
@@ -13,28 +13,36 @@ function filtrarLivros(lista) {
     });
 }
 
-// --- BUSCA E LISTA OS LIVROS ---
+// --- 2. BUSCA E LISTA OS LIVROS ---
 function listarLivros() {
     fetch(`${API_URL}/listar`)
     .then(response => response.json())
     .then(dadosBrutos => {
+        // Guardamos a lista limpa na nossa variável global
         todosOsLivros = filtrarLivros(dadosBrutos);
         renderizarCards(todosOsLivros);
     })
     .catch(error => console.error("Erro ao listar livros:", error));
 }
 
-// --- PESQUISA EM TEMPO REAL ---
+// --- 3. PESQUISA EM TEMPO REAL ---
 function pesquisarLivros() {
-    const termo = document.getElementById('input-pesquisa').value.toLowerCase();
+    // Pegamos o valor do 'search-input' (ID que você definiu no HTML)
+    const input = document.getElementById('search-input');
+    if (!input) return;
+    
+    const termo = input.value.toLowerCase();
+    
     const livrosFiltrados = todosOsLivros.filter(livro => {
         return livro.titulo.toLowerCase().includes(termo) ||
-               livro.autor.toLowerCase().includes(termo);
+               livro.autor.toLowerCase().includes(termo) ||
+               String(livro.generol).toLowerCase().includes(termo);
     });
+    
     renderizarCards(livrosFiltrados);
 }
 
-// --- DESENHA OS CARDS ---
+// --- 4. DESENHA OS CARDS NA TELA ---
 function renderizarCards(lista) {
     const container = document.getElementById('lista-livros');
     if (!container) return;
@@ -44,9 +52,9 @@ function renderizarCards(lista) {
 
     lista.forEach(livro => {
         let acaoHtml = "";
+        const donoId = String(livro.usuario_id);
 
         if (sessao) {
-            const donoId = String(livro.usuario_id);
             const meuId = String(sessao.id);
 
             if (!livro.usuario_id || donoId === "None" || donoId === "null") {
@@ -80,7 +88,7 @@ function renderizarCards(lista) {
     });
 }
 
-// --- EMPRÉSTIMO ---
+// --- 5. EMPRÉSTIMO E DEVOLUÇÃO ---
 function pegarLivro(idLivro) {
     const sessao = JSON.parse(localStorage.getItem('usuarioLogado'));
     fetch(`${API_URL}/emprestar`, {
@@ -104,7 +112,7 @@ function devolverLivro(idLivro) {
     .catch(() => alert("Erro ao devolver livro."));
 }
 
-// --- CADASTRO DE LIVRO (ADMIN) ---
+// --- 6. CADASTRO DE LIVRO (ADMIN) ---
 function cadastrarLivro() {
     const livro = {
         id: Date.now(),
@@ -130,7 +138,7 @@ function cadastrarLivro() {
     });
 }
 
-// --- SESSÃO E DASHBOARD ---
+// --- 7. SESSÃO E DASHBOARD ---
 function atualizarDashboard() {
     const sessao = localStorage.getItem('usuarioLogado');
     const painelAdmin = document.getElementById('painel-admin');
@@ -155,8 +163,20 @@ function fazerLogout() {
     window.location.reload();
 }
 
-// --- INICIALIZAÇÃO ---
+// --- 8. INICIALIZAÇÃO E EVENTOS ---
 window.onload = () => {
     atualizarDashboard();
     listarLivros();
+
+    // Listener para pesquisa enquanto digita
+    const inputPesquisa = document.getElementById('search-input');
+    if (inputPesquisa) {
+        inputPesquisa.addEventListener('keyup', pesquisarLivros);
+    }
+
+    // Listener para o clique no botão da lupa
+    const botaoLupa = document.getElementById('search-button');
+    if (botaoLupa) {
+        botaoLupa.addEventListener('click', pesquisarLivros);
+    }
 };
