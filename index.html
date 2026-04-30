@@ -1,69 +1,79 @@
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leitura Ideal 0.0</title>
-    <link href="css/style.css" type="text/css" rel="stylesheet">
-    <link href="css/pesquisa.css" type="text/css" rel="stylesheet">
-    <script src="java/script.js"></script>
-</head>
+
+    <!-- Fontes Externas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos CSS -->
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+    <link href="css/pesquisa.css" type="text/css" rel="stylesheet">
+
+    <!-- Script Principal (Caminho corrigido para sua pasta 'java') -->
+    <script src="java/script.js" defer></script>
+</head>
 <body>
 
-
-
-    <!-- Abas inicio -->
+    <!-- Navegação Superior -->
     <nav>
-        <a href="index.html">
-         </a>
         <ul class="ul">
-            <a href="index.html"> 
-                <img src="imagem/icones/1.png" alt="home" class="ic">
-            </a>
-            <a href="login.html">
-                <img src="imagem/icones/2.png" alt="login" class="ic">
-            </a>
-            <a href="Bibliotecaria.html">
-                <img src="imagem/icones/3.png" alt="biblioteca" class="ic">
-            </a>
+            <li>
+                <a href="index.html"> 
+                    <img src="imagem/icones/1.png" alt="home" class="ic">
+                </a>
+            </li>
+            <li>
+                <a href="login.html">
+                    <img src="imagem/icones/2.png" alt="login" class="ic">
+                </a>
+            </li>
+            <li>
+                <a href="Bibliotecaria.html">
+                    <img src="imagem/icones/3.png" alt="biblioteca" class="ic">
+                </a>
+            </li>
         </ul>
     </nav>
-    <!-- Abas fim -->
 
+    <!-- Cabeçalho com Banner -->
+    <header class="header-principal">
+        <img src="imagem/Leitura.png" alt="Logo Leitura Ideal" class="titulo">
+        <p style="color: white; font-family: 'Varela Round', sans-serif;">Tenha uma leitura extremamente agradável.</p>
+    </header>
 
-    
-    <!-- Imagem pricipal inicio -->
-     <img src="imagem/Leitura.png" data-aos="fade-up" alt="Imagem" class="titulo">
-        <p style="color: white; font-family: 'Varela Round', sans-serif;" >Tenha uma leitura extremante agradavel.</p>
-     <!-- Imagem pricipal fim-->
-
-
-<!-- Barra de pesquisa início -->
-<div class="search-box" id="Barra-de-pesquisa">
-    <input type="search" class="search-text" id="search-input" placeholder="Pesquisar livro..." style="width: 550px;">
-    <button type="button" id="search-button" style="border: none; background: none; padding: 0;">
-        <img src="imagem/icones/lupa.png" alt="lupa" class="icp">
-    </button>
-</div>
-<!-- Barra de pesquisa fim -->
-
-<div id="dashboard-header" style="color: white; padding: 20px; text-align: center;">
-    <div id="info-login">
-        <a href="login.html" class="btn-pegar">Entrar no Sistema</a>
+    <!-- Área de Sessão (Dashboard) -->
+    <div id="dashboard-header" style="color: white; padding: 10px; text-align: center;">
+        <div id="info-login">
+            <!-- O JS substituirá isso por "Olá, [Nome]" se estiver logado -->
+            <a href="login.html" class="btn-pegar">Entrar no Sistema</a>
+        </div>
     </div>
-</div>
 
-<section id="painel-admin" style="display: none;">
-    <h2>Painel da Bibliotecária</h2>
+    <!-- Barra de Pesquisa -->
+    <div class="search-box" id="Barra-de-pesquisa">
+        <input type="search" class="search-text" id="search-input" placeholder="Pesquisar livro..." style="width: 550px;">
+        <button type="button" id="search-button" style="border: none; background: none; padding: 0; cursor: pointer;">
+            <img src="imagem/icones/lupa.png" alt="lupa" class="icp">
+        </button>
+    </div>
+
+    <!-- Painel Administrativo (Invisível por padrão) -->
+    <section id="painel-admin" class="admin-section" style="display: none; background: #222; color: white; padding: 20px; border-radius: 10px; margin: 20px;">
+        <h2>Painel da Bibliotecária</h2>
+        <p>Você tem permissão para cadastrar novos títulos abaixo.</p>
+        <!-- O seu formulário de cadastro de livros pode entrar aqui -->
     </section>
     
-<!-- Lista de Livros -->
-<div id="lista-livros" class="livros-container">
-    </div>
-    </header>
+    <!-- Lista de Livros (Cards dinâmicos) -->
+    <main id="lista-livros" class="livros-container">
+        <!-- O JavaScript preencherá este espaço automaticamente -->
+    </main>
+
 </body>
 </html>
