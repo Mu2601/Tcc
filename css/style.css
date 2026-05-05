@@ -15,12 +15,12 @@ body {
     font-family: "Varela Round", sans-serif;
     padding: 0;
     color: white;
-    overflow-x: hidden; /* Evita barra de rolagem lateral */
+    overflow-x: hidden;
 }
 
 /* 2. ESTRUTURA DAS SEÇÕES */
-section, footer {
-    padding: 80px 0; /* Reduzi de 160px para os cards não ficarem muito longe do topo */
+section {
+    padding: 40px 0; /* Ajustado para aproximar os cards do banner */
 }
 
 .titulo-container {
@@ -31,104 +31,123 @@ section, footer {
 }
 
 .titulo {
-    max-width: 100%; /* Tamanho máximo para não esticar demais no PC */
-    width: 100%;      /* No celular, ela ocupa 90% da largura da tela */
-    height: auto;    /* Mantém a proporção da imagem */
+    max-width: 1000px; 
+    width: 90%;      
+    height: auto;    
     display: block;
     margin: 0 auto;
 }
 
-/* 3. ÍCONES E IMAGENS GERAIS */
-.ic {
-    max-width: 40px;
-    height: auto;
-    vertical-align: middle;
-}
-
-.item-image {
-    max-width: 100px;
-    height: auto;
-    vertical-align: middle;
-}
-
-/* 4. O CONTAINER DA LISTA (GRID DE CARDS) */
+/* 4. O CONTAINER DA LISTA */
 #lista-livros {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
+    gap: 30px;
     justify-content: center;
     padding: 20px;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
-/* 5. ESTILO DO CARD (Substitui o antigo .card-livro) */
+/* 5. ESTILO DO CARD (ORGANIZADO) */
 .card-livro { 
     display: flex; 
-    flex-direction: column; /* Organiza imagem em cima e texto embaixo */
+    flex-direction: column; 
     background: #111;
-    width: 240px;
-    border-radius: 12px;
+    width: 260px; /* Aumentei um pouco para melhor leitura */
+    border-radius: 15px;
     overflow: hidden;
-    border: 1px solid #333;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    margin-bottom: 20px;
+    border: 1px solid #222;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
 }
 
 .card-livro:hover {
     transform: translateY(-10px);
     border-color: #0091ff;
+    box-shadow: 0 15px 40px rgba(0, 145, 255, 0.2);
 }
 
-/* 6. CAPA E DETALHES DENTRO DO CARD */
+/* 6. CAPA */
 .capa-container {
     width: 100%;
-    height: 320px;
-    background-color: #222;
+    height: 350px; /* Altura fixa para manter o padrão */
+    background-color: #000;
+    overflow: hidden;
 }
 
 .capa-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ajusta a imagem sem distorcer */
+    object-fit: cover; /* Corta a imagem para preencher sem esticar */
+    transition: transform 0.5s ease;
 }
 
+.card-livro:hover .capa-container img {
+    transform: scale(1.05); /* Efeito de zoom suave ao passar o mouse */
+}
+
+/* 7. DETALHES E TEXTOS */
 .card-detalhes {
-    padding: 15px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-}
-
-.card-detalhes h3 {
-    font-size: 1.2rem; /* h3 menor para caber no card */
-    color: #0091ff;
+    flex-grow: 1; /* Faz o container de texto ocupar o resto do card */
 }
 
 .genero-tag {
-    background: #333;
-    padding: 4px 10px;
-    border-radius: 20px;
+    background: rgba(0, 145, 255, 0.1);
+    padding: 5px 12px;
+    border-radius: 50px;
     font-size: 0.7rem;
     align-self: flex-start;
     color: #0091ff;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-/* 7. BOTÕES E STATUS */
+.card-detalhes h3 {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 5px;
+    /* Limita a 2 linhas e coloca "..." se for muito grande */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.8em; 
+}
+
+.card-detalhes p {
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+}
+
+/* 8. BOTÕES */
 .btn-pegar { 
     background: #0091ff; 
-    color: black; 
+    color: white; 
     border: none; 
-    padding: 10px; 
+    padding: 12px; 
     cursor: pointer; 
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: auto; /* Empurra o botão sempre para o final do card */
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.btn-pegar:hover {
+    background: #0070c7;
 }
 
 .indisponivel { 
     color: #ff1869;
     font-weight: bold; 
-    font-size: 0.9em; 
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: auto;
+    padding: 12px;
 }
