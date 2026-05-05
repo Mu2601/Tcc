@@ -1,7 +1,7 @@
 const API_URL = "https://Muri26.pythonanywhere.com";
-let todosOsLivros = []; // Variável global para guardar os livros da nuvem
+let todosOsLivros = []; // Memória local para a busca funcionar
 
-// --- 1. LIMPEZA DE DADOS (Evita bugs de duplicados ou valores vazios) ---
+// --- 1. FILTRAGEM DE SEGURANÇA ---
 function filtrarLivros(lista) {
     const vistos = new Set();
     return lista.filter(livro => {
@@ -13,36 +13,31 @@ function filtrarLivros(lista) {
     });
 }
 
-// --- 2. BUSCA E LISTA OS LIVROS ---
+// --- 2. LISTAGEM E BUSCA ---
 function listarLivros() {
     fetch(`${API_URL}/listar`)
-    .then(response => response.json())
+    .then(res => res.json())
     .then(dadosBrutos => {
-        // Guardamos a lista limpa na nossa variável global
         todosOsLivros = filtrarLivros(dadosBrutos);
         renderizarCards(todosOsLivros);
     })
-    .catch(error => console.error("Erro ao listar livros:", error));
+    .catch(error => console.error("Erro ao listar:", error));
 }
 
-// --- 3. PESQUISA EM TEMPO REAL ---
 function pesquisarLivros() {
-    // Pegamos o valor do 'search-input' (ID que você definiu no HTML)
     const input = document.getElementById('search-input');
     if (!input) return;
-    
     const termo = input.value.toLowerCase();
-    
-    const livrosFiltrados = todosOsLivros.filter(livro => {
+
+    const filtrados = todosOsLivros.filter(livro => {
         return livro.titulo.toLowerCase().includes(termo) ||
                livro.autor.toLowerCase().includes(termo) ||
                String(livro.generol).toLowerCase().includes(termo);
     });
-    
-    renderizarCards(livrosFiltrados);
+    renderizarCards(filtrados);
 }
 
-// --- 4. DESENHA OS CARDS NA TELA ---
+// --- 3. RENDERIZAÇÃO DOS CARDS (Lógica de Múltiplas Unidades) ---
 function renderizarCards(lista) {
     const container = document.getElementById('lista-livros');
     if (!container) return;
@@ -52,17 +47,37 @@ function renderizarCards(lista) {
 
     lista.forEach(livro => {
         let acaoHtml = "";
-        const donoId = String(livro.usuario_id);
+        
+        // Transformamos a string de IDs do Excel em uma lista real de IDs
+        // Ex: "10,25" vira ["10", "25"]
+        const listaIdsBorrowers = String(livro.usuario_id || "")
+            .split(',')
+            .map(id => id.trim())
+            .filter(id => id !== "" && id !== "None" && id !== "null");
+
+        const qtdTotal = parseInt(livro.quantidade) || 0;
+        const qtdEmprestada = listaIdsBorrowers.length;
+        const qtdDisponivel = qtdTotal - qtdEmprestada;
 
         if (sessao) {
             const meuId = String(sessao.id);
+            const euEstouComEle = listaIdsBorrowers.includes(meuId);
 
-            if (!livro.usuario_id || donoId === "None" || donoId === "null") {
-                acaoHtml = `<button class="btn-pegar" onclick="pegarLivro(${livro.id})">Pegar</button>`;
-            } else if (donoId === meuId) {
+            // LOGICA DOS BOTÕES
+            if (euEstouComEle) {
+                // Se o ID do usuário logado está na lista, ele vê "Devolver"
                 acaoHtml = `<button class="btn-pegar" style="background:orange" onclick="devolverLivro(${livro.id})">Devolver</button>`;
+            } else if (qtdDisponivel > 0) {
+                // Se tem estoque e ele não pegou, ele vê "Pegar"
+                acaoHtml = `<button class="btn-pegar" onclick="pegarLivro(${livro.id})">Pegar (${qtdDisponivel} un.)</button>`;
             } else {
-                acaoHtml = `<span class="indisponivel">Indisponível</span>`;
+                // Se o estoque acabou
+                acaoHtml = `<span class="indisponivel">Esgotado</span>`;
+            }
+
+            // OPÇÃO 1: Botão de Excluir (Só para Admin)
+            if (sessao.tipo === 'admin') {
+                acaoHtml += `<button onclick="excluirLivro(${livro.id})" style="background:red; margin-left:8px; padding: 5px 10px;" class="btn-pegar">🗑️</button>`;
             }
         } else {
             acaoHtml = `<p style="font-size:11px; color:#888;">Faça login para reservar</p>`;
@@ -78,7 +93,7 @@ function renderizarCards(lista) {
                     <p class="autor"><strong>Autor:</strong> ${livro.autor}</p>
                     <div class="tags">
                         <span class="genero-tag">${livro.generol}</span>
-                        <span class="qtd-tag">Qtd: ${livro.quantidade}</span>
+                        <span class="qtd-tag">Total: ${qtdTotal}</span>
                     </div>
                     <p class="descricao">${livro.descricao}</p>
                     <div class="card-footer">${acaoHtml}</div>
@@ -88,7 +103,7 @@ function renderizarCards(lista) {
     });
 }
 
-// --- 5. EMPRÉSTIMO E DEVOLUÇÃO ---
+// --- 4. AÇÕES (Pegar, Devolver, Excluir) ---
 function pegarLivro(idLivro) {
     const sessao = JSON.parse(localStorage.getItem('usuarioLogado'));
     fetch(`${API_URL}/emprestar`, {
@@ -97,22 +112,44 @@ function pegarLivro(idLivro) {
         body: JSON.stringify({ livro_id: idLivro, usuario_id: sessao.id })
     })
     .then(res => res.json())
-    .then(() => { alert("📚 Livro reservado!"); listarLivros(); })
-    .catch(() => alert("Erro ao processar empréstimo."));
+    .then(dados => {
+        if (dados.success) {
+            alert("📚 Livro reservado!");
+            listarLivros();
+        } else {
+            alert(dados.message || "Erro ao pegar livro.");
+        }
+    });
 }
 
 function devolverLivro(idLivro) {
+    const sessao = JSON.parse(localStorage.getItem('usuarioLogado'));
     fetch(`${API_URL}/devolver`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ livro_id: idLivro })
+        body: JSON.stringify({ livro_id: idLivro, usuario_id: sessao.id })
     })
-    .then(res => res.json())
-    .then(() => { alert("✅ Livro devolvido!"); listarLivros(); })
-    .catch(() => alert("Erro ao devolver livro."));
+    .then(() => {
+        alert("✅ Livro devolvido!");
+        listarLivros();
+    });
 }
 
-// --- 6. CADASTRO DE LIVRO (ADMIN) ---
+function excluirLivro(idLivro) {
+    if (confirm("Tem certeza que deseja excluir este livro do acervo?")) {
+        fetch(`${API_URL}/excluir`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ livro_id: idLivro })
+        })
+        .then(() => {
+            alert("🗑️ Livro removido!");
+            listarLivros();
+        });
+    }
+}
+
+// --- 5. CADASTRO E DASHBOARD ---
 function cadastrarLivro() {
     const livro = {
         id: Date.now(),
@@ -124,21 +161,19 @@ function cadastrarLivro() {
         quantidade: document.getElementById('quantidade').value
     };
 
-    if (!livro.titulo || !livro.autor) return alert("Título e Autor são obrigatórios.");
+    if (!livro.titulo || !livro.autor) return alert("Preencha título e autor.");
 
     fetch(`${API_URL}/cadastrar`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(livro)
-    })
-    .then(() => {
+    }).then(() => {
         alert("Livro cadastrado!");
         document.getElementById('form-livro').reset();
         listarLivros();
     });
 }
 
-// --- 7. SESSÃO E DASHBOARD ---
 function atualizarDashboard() {
     const sessao = localStorage.getItem('usuarioLogado');
     const painelAdmin = document.getElementById('painel-admin');
@@ -163,20 +198,14 @@ function fazerLogout() {
     window.location.reload();
 }
 
-// --- 8. INICIALIZAÇÃO E EVENTOS ---
+// --- 6. INICIALIZAÇÃO ---
 window.onload = () => {
     atualizarDashboard();
     listarLivros();
 
-    // Listener para pesquisa enquanto digita
     const inputPesquisa = document.getElementById('search-input');
-    if (inputPesquisa) {
-        inputPesquisa.addEventListener('keyup', pesquisarLivros);
-    }
+    if (inputPesquisa) inputPesquisa.addEventListener('keyup', pesquisarLivros);
 
-    // Listener para o clique no botão da lupa
     const botaoLupa = document.getElementById('search-button');
-    if (botaoLupa) {
-        botaoLupa.addEventListener('click', pesquisarLivros);
-    }
+    if (botaoLupa) botaoLupa.addEventListener('click', pesquisarLivros);
 };
