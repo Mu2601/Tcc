@@ -103,6 +103,8 @@ function filtrarLivros() {
     renderizarCards(filtrados);
 }
 
+// ... (mantenha o topo do arquivo com as variáveis e funções de login)
+
 function renderizarCards(lista) {
     const container = document.getElementById('lista-livros');
     if (!container) return;
@@ -112,7 +114,12 @@ function renderizarCards(lista) {
 
     lista.forEach(livro => {
         let acaoHtml = "";
-        const listaIds = String(livro.usuario_id || "").split(',').filter(id => id && id !== "None" && id !== "null");
+        
+        // Lógica de IDs de usuários (corrigindo possíveis retornos nulos do Excel)
+        const listaIds = String(livro.usuario_id || "").split(',')
+            .map(id => id.trim())
+            .filter(id => id && id !== "None" && id !== "null");
+            
         const disponivel = (parseInt(livro.quantidade) || 0) - listaIds.length;
 
         if (sessao) {
@@ -122,30 +129,46 @@ function renderizarCards(lista) {
             } else if (disponivel > 0) {
                 acaoHtml = `<button class="btn-pegar" onclick="pegarLivro(${livro.id})">Pegar (${disponivel} un.)</button>`;
             } else {
-                acaoHtml = `<span class="indisponivel">Esgotado</span>`;
+                acaoHtml = `<span style="color: #ff1869; font-weight: bold; margin-top: 10px;">Esgotado</span>`;
             }
 
+            // Botão excluir para admin (estilizado para não quebrar a pilha)
             if (sessao.tipo === 'admin') {
-                acaoHtml += `<button class="btn-pegar" onclick="excluirLivro(${livro.id})" style="background:#ff1869; margin-top: 5px; width: 45px; align-self: center;">🗑️</button>`;
+                acaoHtml += `<button onclick="excluirLivro(${livro.id})" style="background:none; border:none; color:#ff1869; cursor:pointer; margin-top:10px; font-size:1.2rem;">🗑️ Excluir</button>`;
             }
         }
 
+        // MONTAGEM DO HTML (respeitando as classes do seu novo CSS)
         container.innerHTML += `
-            <div class="card-livro">
-                <div class="capa-container">
-                    <img src="${livro.capa}" onerror="this.src='https://via.placeholder.com/240x320?text=Sem+Capa'">
+            <div class="card-livro" style="background: #111; width: 240px; border-radius: 12px; overflow: hidden; border: 1px solid #333; display: flex; flex-direction: column; transition: 0.3s;">
+                <div class="capa-container" style="width: 100%; height: 320px; overflow: hidden;">
+                    <img src="${livro.capa}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/240x320?text=Sem+Capa'">
                 </div>
-                <div class="card-detalhes">
-                    <span class="genero-tag">${livro.generol || 'Geral'}</span>
-                    <h3>${livro.titulo}</h3>
-                    <p>${livro.autor}</p>
-                    ${acaoHtml}
+                <div class="card-detalhes" style="padding: 15px; display: flex; flex-direction: column; text-align: center;">
+                    <span style="color: #0091ff; font-size: 0.7rem; font-weight: bold; text-transform: uppercase;">${livro.generol || 'Geral'}</span>
+                    <h3 style="font-size: 1.1rem; margin: 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${livro.titulo}</h3>
+                    <p style="font-size: 0.85rem; color: #888; margin-bottom: 10px;">${livro.autor}</p>
+                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                        ${acaoHtml}
+                    </div>
                 </div>
             </div>
         `;
     });
 }
 
+// Inicialização corrigida para o seu novo layout
+document.addEventListener('DOMContentLoaded', () => {
+    atualizarDashboard();
+    listarLivros();
+
+    const inputBusca = document.getElementById('pesquisar-input');
+    if (inputBusca) {
+        inputBusca.addEventListener('input', filtrarLivros);
+    }
+});
+
+// ... (mantenha o resto das funções de empréstimo/devolução)
 // --- 4. AÇÕES DE EMPRÉSTIMO ---
 function pegarLivro(id) {
     const sessao = JSON.parse(localStorage.getItem('usuarioLogado'));
