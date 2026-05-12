@@ -187,13 +187,39 @@ function pegarLivro(id) {
 
 function devolverLivro(id) {
     const sessao = JSON.parse(localStorage.getItem('usuarioLogado'));
+    
+    if (!sessao) {
+        alert("Sessão expirada. Faça login novamente.");
+        return;
+    }
+
+    // Criamos o objeto garantindo que o ID seja número e o Usuário seja string
+    const dados = {
+        livro_id: parseInt(id),
+        usuario_id: String(sessao.id)
+    };
+
+    console.log("Tentando devolver:", dados); // Para você ver no F12 se os dados estão certos
+
     fetch(`${API_URL}/devolver`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ livro_id: id, usuario_id: sessao.id })
-    }).then(() => listarLivros());
+        body: JSON.stringify(dados)
+    })
+    .then(res => res.json())
+    .then(retorno => {
+        if (retorno.success) {
+            alert("✅ Livro devolvido com sucesso!");
+            listarLivros(); // Recarrega a planilha
+        } else {
+            alert("❌ Erro: " + retorno.message);
+        }
+    })
+    .catch(err => {
+        console.error("Erro na chamada da API:", err);
+        alert("Erro de conexão com o servidor.");
+    });
 }
-
 function excluirLivro(id) {
     if (!confirm("Excluir este livro?")) return;
     fetch(`${API_URL}/excluir`, {
