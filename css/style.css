@@ -1,117 +1,204 @@
-/* 1. CONFIGURAÇÕES GLOBAIS */
+/* --- 1. RESET E BASE --- */
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
-/* 1. RESET E BASE */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     list-style: none;
+    font-family: 'Varela Round', sans-serif;
+    outline: none;
 }
 
 body {
-    background-color: black;
-    font-family: "Varela Round", sans-serif;
-    color: white;
-    display: flex; /* Coloca Nav e Main lado a lado */
+    background-color: #0a0a0a; /* Fundo super escuro */
+    color: #f0f0f0;
+    display: flex;
+    min-height: 100vh;
 }
 
-/* 2. BARRA LATERAL FIXA */
+/* --- 2. BARRA LATERAL (NAV) --- */
 nav {
     width: 80px;
     height: 100vh;
-    background-color: #111;
-    border-right: 1px solid #333;
-    position: fixed; /* Fixa na tela */
-    left: 0;
+    background-color: #141414;
+    border-right: 1px solid #222;
+    position: fixed;
     top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 25px;
     z-index: 1000;
 }
 
 nav img {
-    width: 35px !important;
-    margin-bottom: 25px;
+    width: 35px;
+    margin-bottom: 30px;
     cursor: pointer;
+    transition: 0.2s;
 }
 
-/* 3. CONTEÚDO PRINCIPAL (Tudo que não é a barra lateral) */
+nav img:hover {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px #0091ff);
+}
+
+/* --- 3. CONTEÚDO PRINCIPAL --- */
 main {
-    margin-left: 80px; /* Abre espaço exato para a Nav */
-    width: calc(100% - 80px); /* Ocupa o restante da tela */
+    margin-left: 80px;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* CENTRALIZA TUDO NO EIXO X */
+    align-items: center;
     padding: 40px 20px;
+    width: calc(100% - 80px);
 }
 
-/* 4. BANNER (HEADER) CENTRALIZADO */
+/* --- 4. TOPO: BANNER E PESQUISA --- */
 .header-principal {
+    max-width: 900px;
     width: 100%;
-    max-width: 800px; /* Tamanho do banner */
-    text-align: center;
     margin-bottom: 20px;
 }
 
 .titulo {
     width: 100%;
-    height: auto;
+    border-radius: 8px;
 }
 
-/* 5. DASHBOARD (Olá Miroki) */
 #dashboard-header {
-    margin-bottom: 30px;
-    text-align: center;
+    margin-bottom: 25px;
+    color: #ccc;
+    font-size: 1.1rem;
 }
 
-/* 6. BARRA DE PESQUISA */
 .pesquisa-container {
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     margin-bottom: 40px;
 }
 
 #pesquisar-input {
     width: 100%;
-    padding: 15px 25px;
+    padding: 15px 20px;
     border-radius: 30px;
     border: 1px solid #333;
-    background: #111;
+    background-color: #141414;
     color: white;
     font-size: 1rem;
+    transition: 0.3s;
 }
 
-/* 7. GRID DE LIVROS CENTRALIZADO */
-#lista-livros {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center; /* Centraliza os cards no espaço que sobrar */
-    width: 100%;
+#pesquisar-input:focus {
+    border-color: #0091ff;
+    box-shadow: 0 0 10px rgba(0, 145, 255, 0.2);
 }
-/* Estilo para os botões dentro dos cards que o JS gera */
-.btn-pegar {
-    background: #0091ff;
-    color: white;
-    border: none;
-    padding: 10px;
+
+/* --- 5. ESTRUTURA DA PLANILHA (TABELA) --- */
+.tabela-container {
+    width: 100%;
+    max-width: 1100px;
+    background-color: #111;
+    border-radius: 12px;
+    overflow: hidden; /* Mantém as bordas arredondadas */
+    border: 1px solid #222;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.tabela-livros {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+/* Cabeçalho da tabela */
+.tabela-livros th {
+    background-color: #1a1a1a;
+    color: #0091ff;
+    padding: 18px 15px;
+    font-weight: bold;
+    border-bottom: 2px solid #333;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+/* Linhas e Células */
+.tabela-livros td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #222;
+    vertical-align: middle;
+}
+
+/* Efeito Zebrado e Hover */
+.tabela-livros tr:nth-child(even) {
+    background-color: #161616;
+}
+
+.tabela-livros tr:hover {
+    background-color: #1f1f1f;
+}
+
+/* Última linha sem borda embaixo */
+.tabela-livros tr:last-child td {
+    border-bottom: none;
+}
+
+/* Capa miniatura na planilha */
+.mini-capa {
+    width: 55px;
+    height: 80px;
+    object-fit: cover;
     border-radius: 6px;
+    border: 1px solid #333;
+}
+
+/* Tag de Gênero */
+.tag-genero {
+    background: rgba(0, 145, 255, 0.1);
+    color: #0091ff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* --- 6. BOTÕES DE AÇÃO NA TABELA --- */
+.btn-acao {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    color: white;
     font-weight: bold;
     cursor: pointer;
+    font-size: 0.85rem;
     transition: 0.2s;
     width: 100%;
+    margin-bottom: 5px;
 }
 
-.btn-pegar:hover {
-    background: #0070c7;
-}
+.btn-pegar { background-color: #0091ff; }
+.btn-pegar:hover { background-color: #0070c7; }
 
-/* Efeito de hover nos cards para dar vida ao site */
-.card-livro:hover {
-    transform: translateY(-8px);
-    border-color: #0091ff !important;
-    box-shadow: 0 10px 20px rgba(0, 145, 255, 0.1);
+.btn-devolver { background-color: #e67e22; }
+.btn-devolver:hover { background-color: #cf711f; }
+
+.btn-excluir {
+    background-color: transparent;
+    color: #ff1869;
+    padding: 5px;
+    font-size: 1.2rem;
+    width: auto;
+}
+.btn-excluir:hover { transform: scale(1.2); }
+
+.txt-esgotado {
+    color: #ff1869;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: block;
+    text-align: center;
 }
