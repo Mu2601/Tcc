@@ -42,38 +42,33 @@
     </nav>
 
     <!-- Cabeçalho com Banner -->
+    <main>
     <header class="header-principal">
-        <img src="imagem/Leitura.png" alt="Logo Leitura Ideal" class="titulo">
-        <p style="color: white; font-family: 'Varela Round', sans-serif;">Tenha uma leitura extremamente agradável.</p>
+        <img src="imagem/banner.png" class="titulo" alt="Leitura Ideal">
     </header>
 
-    <!-- Área de Sessão (Dashboard) -->
-    <div id="dashboard-header" style="color: white; padding: 10px; text-align: center;">
-        <div id="info-login">
-            <!-- O JS substituirá isso por "Olá, [Nome]" se estiver logado -->
-            <a href="login.html" class="btn-pegar">Entrar no Sistema</a>
-        </div>
+    <div id="dashboard-header"></div>
+
+    <div class="pesquisa-container">
+        <input type="text" id="pesquisar-input" placeholder="Pesquisar título, autor ou gênero...">
     </div>
 
-    <!-- Barra de Pesquisa -->
-    <div class="search-box" id="Barra-de-pesquisa">
-        <input type="search" class="search-text" id="search-input" placeholder="Pesquisar livro..." style="width: 550px;">
-        <button type="button" id="search-button" style="border: none; background: none; padding: 0; cursor: pointer;">
-            <img src="imagem/icones/lupa.png" alt="lupa" class="icp">
-        </button>
+    <div class="tabela-container">
+        <table class="tabela-livros">
+            <thead>
+                <tr>
+                    <th style="width: 80px;">Capa</th>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Gênero</th>
+                    <th style="width: 150px;">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="lista-livros-tbody">
+                </tbody>
+        </table>
     </div>
-
-    <!-- Painel Administrativo (Invisível por padrão) -->
-    <section id="painel-admin" class="admin-section" style="display: none; background: #222; color: white; padding: 20px; border-radius: 10px; margin: 20px;">
-        <h2>Painel da Bibliotecária</h2>
-        <p>Você tem permissão para cadastrar novos títulos abaixo.</p>
-        <!-- O seu formulário de cadastro de livros pode entrar aqui -->
-    </section>
-    
-    <!-- Lista de Livros (Cards dinâmicos) -->
-    <main id="lista-livros" class="livros-container">
-        <!-- O JavaScript preencherá este espaço automaticamente -->
-    </main>
+</main>
 
 </body>
 </html>
