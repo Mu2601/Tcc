@@ -175,10 +175,15 @@ async function buscarPorGenero(generoNome) {
 
     grid.innerHTML = '<p class="msg-ajuda">🔍 Buscando as melhores leituras...</p>';
 
-    // Filtra da lista já carregada (sem nova requisição ao servidor)
-    const livros = todosOsLivros.filter(l =>
+    // Filtra por gênero
+    let livros = todosOsLivros.filter(l =>
         String(l.generol || "").toLowerCase() === generoNome.toLowerCase()
     );
+
+    // Embaralha aleatoriamente e pega no máximo 10
+    livros = livros
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 10);
 
     grid.innerHTML = '';
 
@@ -204,7 +209,6 @@ async function buscarPorGenero(generoNome) {
         `;
     });
 }
-
 // ============================================================
 // 6. HELPER — MONTA BOTÕES (evita repetição de código)
 // ============================================================
