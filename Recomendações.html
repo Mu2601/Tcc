@@ -46,9 +46,39 @@
 
     <!-- Cabeçalho com Banner -->
     <main>
-    <header class="header-principal">
-        <img src="imagem/recomendações.png" class="titulo" alt="Leitura Ideal">
-    </header>
+        <header class="header-principal">
+            <img src="imagem/recomendações.png" class="titulo" alt="Leitura Ideal" style="width: 100%; max-width: 1000px; height: auto; display: block; margin: 20px auto;">
+        </header>
+
+        <section class="secao-rec">
+            <h2>Explorar por Gênero</h2>
+            <div class="botoes-container">
+                <button class="btn-filtro" onclick="buscarPorGenero('ROMANCE')">Romance</button>
+                <button class="btn-filtro" onclick="buscarPorGenero('FICÇÃO')">Ficção</button>
+                <button class="btn-filtro" onclick="buscarPorGenero('TERROR')">Terror</button>
+                <button class="btn-filtro" onclick="buscarPorGenero('FANTASIA')">Fantasia</button>
+            </div>
+            <div id="grid-genero" class="livros-grid">
+                <p class="msg-ajuda">Clique em um gênero acima para ver as recomendações.</p>
+            </div>
+        </section>
+
+        <hr class="divisor">
+
+        <section class="secao-rec">
+            <h2>Autores em Destaque</h2>
+            <div class="botoes-container">
+                <button class="btn-filtro" onclick="buscarPorAutor('Agustina Bessa-Luís')">Agustina Bessa-Luís</button>
+                <button class="btn-filtro" onclick="buscarPorAutor('Gabriel de mattos')">Gabriel de mattos</button>
+            </div>
+            <div id="grid-autor" class="livros-grid">
+                <p class="msg-ajuda">Clique em um autor acima para ver as recomendações.</p>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
 
 </body>
 </html>
