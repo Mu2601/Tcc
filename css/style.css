@@ -202,3 +202,46 @@ main {
     display: block;
     text-align: center;
 }
+
+.seletor-container {
+    margin-bottom: 35px;
+}
+
+/* Estilo do botão/caixa de seleção em vermelho-vinho */
+.btn-select-vinho {
+    background-color: #5c0612; /* Vermelho Vinho */
+    color: white;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: 1px solid #7a0c1b;
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    max-width: 300px; /* Impede que o botão fique largo demais */
+    transition: background-color 0.3s, transform 0.2s;
+    
+    /* Customização da setinha interna do select */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='white'><polygon points='0,0 10,0 5,5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+}
+
+/* Efeito ao passar o mouse */
+.btn-select-vinho:hover {
+    background-color: #730919; /* Um vinho levemente mais claro */
+    transform: translateY(-1px);
+}
+
+/* Garante que os itens de dentro da lista fiquem com fundo escuro e legíveis */
+.btn-select-vinho option {
+    background-color: #1a1a1a;
+    color: white;
+    font-weight: normal;
+    padding: 10px;
+}
