@@ -1,110 +1,212 @@
-/* --- 1. RESET E BASE --- */
-@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+/* ============================================================
+   LEITURA IDEAL — style.css
+   Tema: Dark Library — elegante, moderno, refinado
+   ============================================================ */
 
-* {
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&family=Playfair+Display:wght@600;700&display=swap');
+
+/* --- VARIÁVEIS DE DESIGN --- */
+:root {
+    --bg-base:        #080b0f;
+    --bg-surface:     #0e1217;
+    --bg-elevated:    #141920;
+    --bg-hover:       #1a2230;
+
+    --accent-blue:    #3b82f6;
+    --accent-blue-glow: rgba(59, 130, 246, 0.18);
+    --accent-green:   #10b981;
+    --accent-orange:  #f59e0b;
+    --accent-red:     #ef4444;
+    --accent-wine:    #7c1d34;
+    --accent-wine-hover: #9e2444;
+
+    --text-primary:   #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted:     #475569;
+
+    --border-subtle:  #1e2a3a;
+    --border-normal:  #263347;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-pill: 999px;
+
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.5);
+    --shadow-glow: 0 0 20px rgba(59,130,246,0.15);
+
+    --transition: 0.2s ease;
+}
+
+/* --- RESET E BASE --- */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     list-style: none;
-    font-family: 'Varela Round', sans-serif;
     outline: none;
 }
 
+html { scroll-behavior: smooth; }
+
 body {
-    background-color: #0a0a0a; /* Fundo super escuro */
-    color: #f0f0f0;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'Varela Round', sans-serif;
     display: flex;
     min-height: 100vh;
+    /* Textura sutil de ruído */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
 }
 
-/* --- 2. BARRA LATERAL (NAV) --- */
+/* --- BARRA LATERAL (NAV) --- */
 nav {
-    width: 80px;
+    width: 72px;
     height: 100vh;
-    background-color: #141414;
-    border-right: 1px solid #222;
+    background-color: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 25px;
+    padding-top: 28px;
+    gap: 8px;
     z-index: 1000;
 }
 
-nav img {
-    width: 35px;
-    margin-bottom: 30px;
-    cursor: pointer;
-    transition: 0.2s;
+nav li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md);
+    transition: background var(--transition), transform var(--transition);
+    margin-bottom: 6px;
 }
 
-nav img:hover {
-    transform: scale(1.15);
-    filter: drop-shadow(0 0 8px #0091ff);
+nav li a:hover {
+    background: var(--bg-elevated);
+    transform: scale(1.08);
 }
 
-/* --- 3. CONTEÚDO PRINCIPAL --- */
-main {
-    margin-left: 80px;
+nav img.ic {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: brightness(0.7);
+    transition: filter var(--transition), drop-shadow var(--transition);
+}
+
+nav li a:hover img.ic {
+    filter: brightness(1) drop-shadow(0 0 6px var(--accent-blue));
+}
+
+/* --- ÁREA DE CONTEÚDO --- */
+main, .conteudo-principal {
+    margin-left: 72px;
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 20px;
-    width: calc(100% - 80px);
+    padding: 36px 28px 60px;
+    width: calc(100% - 72px);
+    max-width: 100%;
 }
 
-/* --- 4. TOPO: BANNER E PESQUISA --- */
+/* --- BANNER / HEADER --- */
 .header-principal {
-    max-width: 900px;
     width: 100%;
-    margin-bottom: 20px;
+    max-width: 960px;
+    margin-bottom: 16px;
 }
 
 .titulo {
     width: 100%;
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
+    display: block;
 }
 
-#dashboard-header {
-    margin-bottom: 25px;
-    color: #ccc;
-    font-size: 1.1rem;
+/* --- DASHBOARD HEADER (Olá, usuário) --- */
+#dashboard-header,
+#info-login {
+    width: 100%;
+    max-width: 960px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
+#dashboard-header strong,
+#info-login strong {
+    color: var(--text-primary);
+}
+
+/* --- PESQUISA --- */
 .pesquisa-container {
     width: 100%;
-    max-width: 700px;
-    margin-bottom: 40px;
+    max-width: 680px;
+    margin-bottom: 36px;
+    position: relative;
 }
 
-#pesquisar-input {
+#pesquisar-input,
+#search-input {
     width: 100%;
-    padding: 15px 20px;
-    border-radius: 30px;
-    border: 1px solid #333;
-    background-color: #141414;
-    color: white;
-    font-size: 1rem;
-    transition: 0.3s;
+    padding: 14px 20px 14px 48px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-normal);
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    font-family: 'Varela Round', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-#pesquisar-input:focus {
-    border-color: #0091ff;
-    box-shadow: 0 0 10px rgba(0, 145, 255, 0.2);
+#pesquisar-input:focus,
+#search-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--accent-blue-glow);
 }
 
-/* --- 5. ESTRUTURA DA PLANILHA (TABELA) --- */
+#pesquisar-input::placeholder,
+#search-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Ícone lupa dentro do campo */
+.pesquisa-container::before {
+    content: "🔍";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+#search-button {
+    display: none; /* Escondemos o botão — o keyup já dispara a busca */
+}
+
+/* --- TABELA DE LIVROS --- */
 .tabela-container {
     width: 100%;
     max-width: 1100px;
-    background-color: #111;
-    border-radius: 12px;
-    overflow: hidden; /* Mantém as bordas arredondadas */
-    border: 1px solid #222;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 48px;
 }
 
 .tabela-livros {
@@ -113,135 +215,375 @@ main {
     text-align: left;
 }
 
-/* Cabeçalho da tabela */
 .tabela-livros th {
-    background-color: #1a1a1a;
-    color: #0091ff;
-    padding: 18px 15px;
+    background-color: var(--bg-elevated);
+    color: var(--accent-blue);
+    padding: 16px 18px;
     font-weight: bold;
-    border-bottom: 2px solid #333;
+    border-bottom: 1px solid var(--border-normal);
     text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
 }
 
-/* Linhas e Células */
 .tabela-livros td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #222;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border-subtle);
     vertical-align: middle;
+    color: var(--text-secondary);
+    font-size: 0.93rem;
 }
 
-/* Efeito Zebrado e Hover */
-.tabela-livros tr:nth-child(even) {
-    background-color: #161616;
+.tabela-livros tr:hover td {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
 }
 
-.tabela-livros tr:hover {
-    background-color: #1f1f1f;
-}
-
-/* Última linha sem borda embaixo */
 .tabela-livros tr:last-child td {
     border-bottom: none;
 }
 
-/* Capa miniatura na planilha */
+/* Capa em miniatura */
 .mini-capa {
-    width: 55px;
-    height: 80px;
+    width: 52px;
+    height: 76px;
     object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid #333;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-normal);
+    display: block;
 }
 
-/* Tag de Gênero */
+/* Tag de gênero */
 .tag-genero {
-    background: rgba(0, 145, 255, 0.1);
-    color: #0091ff;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    background: var(--accent-blue-glow);
+    color: var(--accent-blue);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 0.72rem;
     font-weight: bold;
     text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: inline-block;
+    border: 1px solid rgba(59,130,246,0.2);
 }
 
-/* --- 6. BOTÕES DE AÇÃO NA TABELA --- */
+/* --- BOTÕES DE AÇÃO --- */
 .btn-acao {
-    padding: 8px 14px;
+    padding: 7px 14px;
     border: none;
-    border-radius: 6px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: 0.2s;
-    width: 100%;
-    margin-bottom: 5px;
-}
-
-.btn-pegar { background-color: #0091ff; }
-.btn-pegar:hover { background-color: #0070c7; }
-
-.btn-devolver { background-color: #e67e22; }
-.btn-devolver:hover { background-color: #cf711f; }
-
-.btn-excluir {
-    background-color: transparent;
-    color: #ff1869;
-    padding: 5px;
-    font-size: 1.2rem;
-    width: auto;
-}
-.btn-excluir:hover { transform: scale(1.2); }
-
-.txt-esgotado {
-    color: #ff1869;
-    font-weight: bold;
-    font-size: 0.9rem;
-    display: block;
-    text-align: center;
-}
-
-.seletor-container {
-    margin-bottom: 35px;
-}
-
-/* Estilo do botão/caixa de seleção em vermelho-vinho */
-.btn-select-vinho {
-    background-color: #5c0612; /* Vermelho Vinho */
+    border-radius: var(--radius-sm);
     color: white;
     font-family: 'Varela Round', sans-serif;
-    font-size: 16px;
     font-weight: bold;
-    padding: 12px 20px;
-    border: 1px solid #7a0c1b;
-    border-radius: 8px;
     cursor: pointer;
-    outline: none;
-    width: 100%;
-    max-width: 300px; /* Impede que o botão fique largo demais */
-    transition: background-color 0.3s, transform 0.2s;
-    
-    /* Customização da setinha interna do select */
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='white'><polygon points='0,0 10,0 5,5'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
+    font-size: 0.82rem;
+    transition: filter var(--transition), transform var(--transition);
+    display: inline-block;
+    margin-bottom: 4px;
 }
 
-/* Efeito ao passar o mouse */
-.btn-select-vinho:hover {
-    background-color: #730919; /* Um vinho levemente mais claro */
+.btn-acao:hover {
+    filter: brightness(1.15);
     transform: translateY(-1px);
 }
 
-/* Garante que os itens de dentro da lista fiquem com fundo escuro e legíveis */
+.btn-acao:active {
+    transform: translateY(0);
+}
+
+.btn-pegar    { background-color: var(--accent-blue); }
+.btn-devolver { background-color: var(--accent-orange); }
+
+.btn-excluir {
+    background: transparent;
+    color: var(--accent-red);
+    padding: 5px 8px;
+    font-size: 1.1rem;
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: var(--radius-sm);
+}
+
+.btn-excluir:hover {
+    background: rgba(239,68,68,0.1);
+    transform: scale(1.1);
+    filter: none;
+}
+
+.txt-esgotado {
+    color: var(--accent-red);
+    font-weight: bold;
+    font-size: 0.85rem;
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(239,68,68,0.08);
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(239,68,68,0.2);
+}
+
+/* Botão genérico de login/ação */
+.btn-pegar,
+.btn-login {
+    padding: 8px 18px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--accent-blue);
+    color: white;
+    font-family: 'Varela Round', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: filter var(--transition), transform var(--transition);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-pegar:hover,
+.btn-login:hover {
+    filter: brightness(1.15);
+    transform: translateY(-1px);
+}
+
+/* --- SELETOR DE GÊNERO (VINHO) --- */
+.seletor-container {
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 16px;
+}
+
+.btn-select-vinho {
+    background-color: var(--accent-wine);
+    color: white;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 0.95rem;
+    font-weight: bold;
+    padding: 12px 40px 12px 18px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    width: 100%;
+    max-width: 280px;
+    transition: background var(--transition), transform var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='white'><path d='M0 0l6 8 6-8z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+
+.btn-select-vinho:hover {
+    background-color: var(--accent-wine-hover);
+    transform: translateY(-1px);
+}
+
 .btn-select-vinho option {
     background-color: #1a1a1a;
     color: white;
-    font-weight: normal;
-    padding: 10px;
+}
+
+/* --- SEÇÃO DE RECOMENDAÇÕES --- */
+.secao-rec {
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 48px;
+}
+
+.secao-rec h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+}
+
+.secao-rec p.subtitulo-sec {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Grid de cards */
+.livros-grid,
+#grid-genero {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Card de livro */
+.card-livro-rec {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    text-align: center;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 380px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-livro-rec::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59,130,246,0.04) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.card-livro-rec:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-blue);
+    box-shadow: var(--shadow-glow), var(--shadow-card);
+}
+
+.capa-rec {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.info-rec h3 {
+    font-size: 0.92rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 6px 0 4px;
+    line-height: 1.3;
+    /* Limita a 2 linhas */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.info-rec p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* Placeholder/mensagem no grid */
+.msg-ajuda {
+    color: var(--text-muted);
+    grid-column: 1 / -1;
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    padding: 20px;
+    text-align: center;
+    border: 1px dashed var(--border-subtle);
+    border-radius: var(--radius-md);
+}
+
+/* --- PAINEL ADMIN --- */
+#painel-admin {
+    width: 100%;
+    max-width: 700px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-normal);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: 36px;
+    box-shadow: var(--shadow-card);
+}
+
+#painel-admin h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+}
+
+#painel-admin p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+}
+
+#form-livro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#form-livro input,
+#form-livro textarea,
+#form-livro select {
+    width: 100%;
+    padding: 11px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-normal);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    font-family: 'Varela Round', sans-serif;
+    font-size: 0.92rem;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+#form-livro input:focus,
+#form-livro textarea:focus,
+#form-livro select:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--accent-blue-glow);
+}
+
+#form-livro textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+#form-livro button {
+    padding: 12px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: 'Varela Round', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: filter var(--transition), transform var(--transition);
+    margin-top: 4px;
+}
+
+#form-livro button:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1050px) {
+    .livros-grid, #grid-genero {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    nav { width: 58px; }
+    main, .conteudo-principal {
+        margin-left: 58px;
+        width: calc(100% - 58px);
+        padding: 20px 14px 40px;
+    }
+    .livros-grid, #grid-genero {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .tabela-livros th:nth-child(5),
+    .tabela-livros td:nth-child(5) {
+        display: none; /* Esconde coluna descrição em mobile */
+    }
+}
+
+@media (max-width: 420px) {
+    .livros-grid, #grid-genero {
+        grid-template-columns: 1fr;
+    }
 }
