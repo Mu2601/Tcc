@@ -45,37 +45,36 @@
     </nav>
 
     <!-- Cabeçalho com Banner -->
-    <main>
+   <main>
         <header class="header-principal">
             <img src="imagem/recomendações.png" class="titulo" alt="Leitura Ideal" style="width: 100%; max-width: 1000px; height: auto; display: block; margin: 20px auto;">
         </header>
 
         <section class="secao-rec">
-            <h2>Explorar por Gênero</h2>
-            <div class="botoes-container">
-                <button class="btn-filtro" onclick="buscarPorGenero('ROMANCE')">Romance</button>
-                <button class="btn-filtro" onclick="buscarPorGenero('FICÇÃO')">Ficção</button>
-                <button class="btn-filtro" onclick="buscarPorGenero('TERROR')">Terror</button>
-                <button class="btn-filtro" onclick="buscarPorGenero('FANTASIA')">Fantasia</button>
+            <h2>Explorar por Gênero Literário</h2>
+            
+            <div class="seletor-container">
+                <label for="genero-select" style="color: #aaa; font-family: 'Varela Round', sans-serif; display: block; margin-bottom: 10px;">Selecione uma categoria:</label>
+                
+                <select id="genero-select" class="btn-select-vinho" onchange="buscarPorGenero(this.value)">
+                    <option value="" disabled selected>Escolha um Gênero...</option>
+                    <option value="Ficção">Ficção</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Aventura">Aventura</option>
+                    <option value="Terror">Terror</option>
+                    <option value="Biografia">Biografia</option>
+                    <option value="Didático">Didático</option>
+                    <option value="Tragédia">Tragédia</option>
+                    <option value="Suspense/Policial">Suspense/Policial</option>
+                    <option value="Distopia">Distopia</option>
+                    <option value="Infantojuvenil">Infantojuvenil</option>
+                </select>
             </div>
+
             <div id="grid-genero" class="livros-grid">
-                <p class="msg-ajuda">Clique em um gênero acima para ver as recomendações.</p>
-            </div>
-        </section>
-
-        <hr class="divisor">
-
-        <section class="secao-rec">
-            <h2>Autores em Destaque</h2>
-            <div class="botoes-container">
-                <button class="btn-filtro" onclick="buscarPorAutor('Agustina Bessa-Luís')">Agustina Bessa-Luís</button>
-                <button class="btn-filtro" onclick="buscarPorAutor('Gabriel de mattos')">Gabriel de mattos</button>
-            </div>
-            <div id="grid-autor" class="livros-grid">
-                <p class="msg-ajuda">Clique em um autor acima para ver as recomendações.</p>
+                <p class="msg-ajuda">Escolha um gênero acima para exibir as recomendações da biblioteca.</p>
             </div>
         </section>
     </main>
-
 </body>
 </html>
