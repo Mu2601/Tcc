@@ -182,7 +182,7 @@ async function buscarPorGenero(generoNome) {
     // NOVO: busca no servidor os livros do gênero, já ordenados do mais pego para o menos pego
     let livros = [];
     try {
-        const resp = await fetch(`${API_URL}/recomendar?genero=${encodeURIComponent(generoNome)}&limite=10`);
+        const resp = await fetch(`${API_URL}/recomendar?genero=${encodeURIComponent(generoNome)}&limite=5`);
         if (!resp.ok) throw new Error("Erro HTTP: " + resp.status);
         livros = (await resp.json()).filter(l => l && l.titulo);
     } catch (err) {
@@ -197,7 +197,7 @@ async function buscarPorGenero(generoNome) {
     grid.innerHTML = '';
 
     if (livros.length === 0) {
-        grid.innerHTML = '<p class="msg-ajuda">Nenhum livro deste gênero no acervo no momento.</p>';
+        grid.innerHTML = '<p class="msg-ajuda">Ainda não há recomendações para este gênero: nenhum livro dele foi pego até agora.</p>';
         return;
     }
 
