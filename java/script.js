@@ -1,5 +1,6 @@
 const API_URL = "https://muri26.pythonanywhere.com"; // minúsculo evita erros
 let todosOsLivros = [];
+let generoAtual = ""; // NOVO: gênero selecionado na página de recomendações
 
 // ============================================================
 // 1. LOGIN E SESSÃO
@@ -102,9 +103,10 @@ function listarLivros() {
     .then(dadosBrutos => {
         todosOsLivros = dadosBrutos.filter(l => l && l.titulo);
         if (tbody) renderizarLivros(todosOsLivros);
-        // Atualiza grid de gênero se estiver visível
+        // Atualiza grid de gênero se estiver visível (botões .btn-genero ou select da página de recomendações)
         const generoAtivo = document.querySelector('.btn-genero.ativo');
-        if (generoAtivo) buscarPorGenero(generoAtivo.dataset.genero);
+        const generoParaAtualizar = generoAtivo ? generoAtivo.dataset.genero : generoAtual;
+        if (generoParaAtualizar) buscarPorGenero(generoParaAtualizar);
     })
     .catch(err => {
         console.error("Erro ao listar livros:", err);
@@ -175,15 +177,22 @@ async function buscarPorGenero(generoNome) {
 
     grid.innerHTML = '<p class="msg-ajuda">🔍 Buscando as melhores leituras...</p>';
 
-    // Filtra por gênero
-    let livros = todosOsLivros.filter(l =>
-        String(l.generol || "").toLowerCase() === generoNome.toLowerCase()
-    );
+    generoAtual = generoNome;
 
-    // Embaralha aleatoriamente e pega no máximo 10
-    livros = livros
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 10);
+    // NOVO: busca no servidor os livros do gênero, já ordenados do mais pego para o menos pego
+    let livros = [];
+    try {
+        const resp = await fetch(`${API_URL}/recomendar?genero=${encodeURIComponent(generoNome)}&limite=10`);
+        if (!resp.ok) throw new Error("Erro HTTP: " + resp.status);
+        livros = (await resp.json()).filter(l => l && l.titulo);
+    } catch (err) {
+        console.error("Erro ao buscar recomendações:", err);
+        grid.innerHTML = '<p class="msg-ajuda">❌ Erro ao carregar as recomendações.</p>';
+        return;
+    }
+
+    // Se o usuário trocou de gênero enquanto carregava, ignora esta resposta
+    if (generoAtual !== generoNome) return;
 
     grid.innerHTML = '';
 
@@ -203,6 +212,7 @@ async function buscarPorGenero(generoNome) {
                 <div class="info-rec">
                     <h3 title="${livro.titulo}">${livro.titulo}</h3>
                     <p style="color:#aaa; font-size:13px; margin:0;">${livro.autor}</p>
+                    <p style="color:#ff3769; font-size:12px; margin:4px 0 0;">📖 Pego ${livro.vezes_pego || 0} ${(livro.vezes_pego || 0) === 1 ? 'vez' : 'vezes'}</p>
                 </div>
                 ${acaoHtml}
             </div>
