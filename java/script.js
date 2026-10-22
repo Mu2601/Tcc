@@ -147,7 +147,7 @@ function renderizarLivros(lista) {
         tbody.innerHTML += `
             <tr>
                 <td>
-                    <img src="${livro.capa || ''}" class="mini-capa" 
+                    <img src="${livro.capa || ''}" class="mini-capa" data-descricao="${escapeHtml(textoDescricao(livro))}"
                          onerror="this.src='https://via.placeholder.com/55x80?text=Capa'">
                 </td>
                 <td style="font-weight:bold; color:#fff; font-size:1.05rem;">
@@ -207,7 +207,7 @@ async function buscarPorGenero(generoNome) {
         const { acaoHtml } = montarBotoes(livro, sessao, true);
         grid.innerHTML += `
             <div class="card-livro-rec">
-                <img src="${livro.capa || ''}" class="capa-rec" 
+                <img src="${livro.capa || ''}" class="capa-rec" data-descricao="${escapeHtml(textoDescricao(livro))}"
                      onerror="this.src='https://via.placeholder.com/150x220?text=Sem+Capa'">
                 <div class="info-rec">
                     <h3 title="${livro.titulo}">${livro.titulo}</h3>
@@ -324,11 +324,114 @@ function excluirLivro(idLivro) {
 }
 
 // ============================================================
-// 8. INICIALIZAÇÃO
+// 8. DESCRIÇÃO DO LIVRO AO PASSAR O MOUSE NA CAPA
+// Funciona em qualquer <img> com a classe .mini-capa (página inicial)
+// ou .capa-rec (página de recomendações) que tenha data-descricao.
+// ============================================================
+function escapeHtml(texto) {
+    return String(texto)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function textoDescricao(livro) {
+    const d = String(livro.descricao || '').trim();
+    return d && d !== 'None' && d !== 'null' ? d : 'Este livro ainda não tem descrição.';
+}
+
+function iniciarTooltipDescricao() {
+    // Estilo do balão injetado aqui para não precisar mexer nos arquivos .css
+    const estilo = document.createElement('style');
+    estilo.textContent = `
+        .mini-capa[data-descricao], .capa-rec[data-descricao] { cursor: help; }
+        #tooltip-descricao {
+            position: fixed; z-index: 9999; display: none;
+            max-width: 280px; padding: 10px 12px;
+            background: #1e1e1e; color: #eee;
+            border: 1px solid #ff3769; border-radius: 8px;
+            font: 13px/1.4 'Varela Round', sans-serif;
+            box-shadow: 0 4px 14px rgba(0,0,0,.5);
+            pointer-events: none; white-space: pre-line;
+        }
+    `;
+    document.head.appendChild(estilo);
+
+    const balao = document.createElement('div');
+    balao.id = 'tooltip-descricao';
+    document.body.appendChild(balao);
+
+    const capaDe = (alvo) =>
+        alvo && alvo.closest ? alvo.closest('.mini-capa[data-descricao], .capa-rec[data-descricao]') : null;
+
+    function posicionar(evento) {
+        const margem = 14;
+        let x = evento.clientX + margem;
+        let y = evento.clientY + margem;
+        // Não deixa o balão sair da tela
+        if (x + balao.offsetWidth > window.innerWidth - 8) x = evento.clientX - balao.offsetWidth - margem;
+        if (y + balao.offsetHeight > window.innerHeight - 8) y = evento.clientY - balao.offsetHeight - margem;
+        balao.style.left = Math.max(8, x) + 'px';
+        balao.style.top = Math.max(8, y) + 'px';
+    }
+
+    // Celular/tablet: telas sem "passar o mouse" usam toque
+    const semHover = () =>
+        !!(window.matchMedia && window.matchMedia('(hover: none)').matches);
+
+    // Delegação de eventos: continua funcionando mesmo quando a lista é redesenhada
+    document.addEventListener('mouseover', (e) => {
+        if (semHover()) return;   // no celular o toque já dispara um mouseover falso
+        const capa = capaDe(e.target);
+        if (!capa) return;
+        balao.textContent = capa.dataset.descricao;   // textContent: nunca interpreta HTML
+        balao.style.display = 'block';
+        posicionar(e);
+    });
+    document.addEventListener('mousemove', (e) => {
+        if (!semHover() && balao.style.display === 'block') posicionar(e);
+    });
+    document.addEventListener('mouseout', (e) => {
+        if (!semHover() && capaDe(e.target)) balao.style.display = 'none';
+    });
+
+    // Toque: tocar na capa abre a descrição (de novo na mesma capa fecha);
+    // tocar em qualquer outro lugar fecha.
+    let capaAberta = null;
+    document.addEventListener('click', (e) => {
+        if (!semHover()) return;
+        const capa = capaDe(e.target);
+
+        if (!capa || capa === capaAberta) {
+            balao.style.display = 'none';
+            capaAberta = null;
+            return;
+        }
+
+        capaAberta = capa;
+        balao.textContent = capa.dataset.descricao;
+        balao.style.display = 'block';
+
+        // Posiciona logo abaixo da capa (ou acima, se não couber), dentro da tela
+        const r = capa.getBoundingClientRect();
+        let x = r.left + r.width / 2 - balao.offsetWidth / 2;
+        let y = r.bottom + 8;
+        if (y + balao.offsetHeight > window.innerHeight - 8) y = r.top - balao.offsetHeight - 8;
+        x = Math.min(Math.max(8, x), window.innerWidth - balao.offsetWidth - 8);
+        balao.style.left = x + 'px';
+        balao.style.top = Math.max(8, y) + 'px';
+    });
+}
+
+// ============================================================
+// 9. INICIALIZAÇÃO
 // ============================================================
 window.onload = () => {
     atualizarDashboard();
     listarLivros();
+    iniciarTooltipDescricao();
 
     // Pesquisa enquanto digita
     const inputPesquisa = document.getElementById('pesquisar-input');
